@@ -7,7 +7,8 @@ socket.on('connect', () => {
 });
 
 socket.on('newMessage', (message) => {
-    $('#messages').append(`<li>${message.from}: ${message.text}</li>`);
+    const formattedTime = moment(message.createdAt).format('h:mm a');
+    $('#messages').append(`<li>${message.from} ${formattedTime}: ${message.text}</li>`);
 });
 
 socket.on('disconnect', () => {
@@ -15,7 +16,8 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newLocationMessage', (message) => {
-    $('#messages').append(`<li>${message.from}: <a href="${message.url}" target="_blank">My current location</li>`);
+    const formattedTime = moment(message.createdAt).format('h:mm a');
+    $('#messages').append(`<li>${message.from} ${formattedTime}: <a href="${message.url}" target="_blank">My current location</li>`);
 });
 
 $('#message-form').on('submit', function(event) {
