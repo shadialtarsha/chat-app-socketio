@@ -74,7 +74,6 @@ messageForm.on('submit', function(event) {
     const messageTextBox = $('#message-form input[name=\'message\']');
     event.preventDefault();
     socket.emit('createMessage', {
-        from: 'User',
         text: messageTextBox.val()
     }, () => {
         messageTextBox.val('');
@@ -99,5 +98,5 @@ sendLocationButton.on('click', function() {
         sendLocationButton.removeAttr('disabled');
         sendLocationButton.text('Sending location');
         alert('Unable to fetch location.');
-    })
+    });
 });
