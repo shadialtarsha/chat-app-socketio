@@ -6,18 +6,34 @@ socket.on('connect', () => {
 
 });
 
-socket.on('newMessage', (message) => {
-    const formattedTime = moment(message.createdAt).format('h:mm a');
-    $('#messages').append(`<li>${message.from} ${formattedTime}: ${message.text}</li>`);
-});
-
 socket.on('disconnect', () => {
     console.log('disconnected form server');
 });
 
+socket.on('newMessage', (message) => {
+    const formattedTime = moment(message.createdAt).format('h:mm a');
+
+    const template = $('#message-template').html();
+    const html = Mustache.render(template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formattedTime
+    });
+
+    $('#messages').append(html);
+});
+
 socket.on('newLocationMessage', (message) => {
     const formattedTime = moment(message.createdAt).format('h:mm a');
-    $('#messages').append(`<li>${message.from} ${formattedTime}: <a href="${message.url}" target="_blank">My current location</li>`);
+
+    const template = $('#location-message-template').html();
+    const html = Mustache.render(template, {
+        from: message.from,
+        createdAt: formattedTime,
+        url: message.url
+    });
+
+    $('#messages').append(html);
 });
 
 $('#message-form').on('submit', function(event) {
